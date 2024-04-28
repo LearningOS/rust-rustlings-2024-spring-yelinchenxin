@@ -3,8 +3,9 @@
 	This problem requires you to implement a basic BFS algorithm
 */
 
-//I AM NOT DONE
+
 use std::collections::VecDeque;
+use std::collections::LinkedList;
 
 // Define a graph
 struct Graph {
@@ -29,11 +30,28 @@ impl Graph {
     fn bfs_with_return(&self, start: usize) -> Vec<usize> {
         
 		//TODO
-
         let mut visit_order = vec![];
+        let mut visit_now = LinkedList::new();
+        let mut has_visit = vec![0; self.adj.len()];
+        visit_order.push(start);
+        visit_now.push_back(start);
+        has_visit[start] = 1;
+
+        while visit_now.is_empty() == false {
+            let now = visit_now.pop_front().unwrap();
+            for num in &self.adj[now] {
+                if has_visit[num.clone()] == 0 {
+                    visit_order.push(num.clone());
+                    visit_now.push_back(num.clone());
+                    has_visit[num.clone()] = 1;
+                }
+            }
+        }
+
         visit_order
     }
-}
+    }
+
 
 
 #[cfg(test)]
